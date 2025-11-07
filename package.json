@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jest --coverage"
+    "test": "jest --forceExit --coverage",
+    "test:coverage": "jest --forceExit --coverage"
   }
 }
