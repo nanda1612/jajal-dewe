@@ -1,37 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Main Dashboard</title>
-<link rel="stylesheet" href="style.css">
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+}
+
+.container{
+    background:white;
+    padding:40px;
+    border-radius:18px;
+    width:380px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
+    animation:fadeIn 0.6s ease;
+}
+
+.logo{
+    width:120px;
+    margin-bottom:15px;
+}
+
+h1{
+    font-weight:500;
+    margin-bottom:30px;
+    color:#2c3e50;
+}
+
+.button-group{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:14px;
+    border-radius:10px;
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    font-size:16px;
+    transition:all 0.25s ease;
+}
+
+.btn i{
+    font-size:18px;
+}
+
+.app1{
+    background:#3498db;
+}
+
+.app1:hover{
+    background:#2c82c9;
+    transform:translateY(-2px);
+}
+
+.app2{
+    background:#e74c3c;
+}
+
+.app2:hover{
+    background:#c0392b;
+    transform:translateY(-2px);
+}
+
+.users{
+    background:#27ae60;
+}
+
+.users:hover{
+    background:#1e8c4a;
+    transform:translateY(-2px);
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:480px){
+    .container{
+        width:90%;
+        padding:30px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="header">
+<div class="container">
+
+<img src="./images/idn-logo.png" alt="idn-logo" class="logo">
+
 <h1>Main Dashboard</h1>
-<p class="subtitle">Choose an application</p>
+
+<div class="button-group">
+
+<a href="http://192.168.56.102:3000/app1" class="btn app1">
+<i class="fa-solid fa-cube"></i>
+App 1
+</a>
+
+<a href="http://192.168.56.102:3000/app2" class="btn app2">
+<i class="fa-solid fa-layer-group"></i>
+App 2
+</a>
+
+<a href="http://192.168.56.102:3000/users" class="btn users">
+<i class="fa-solid fa-users"></i>
+Users
+</a>
+
 </div>
-
-<div class="grid">
-
-<a href="app1.html" class="card">
-<div class="icon"><i class="fa-solid fa-window-maximize"></i></div>
-<h2>App 1</h2>
-<p>Access backend server 1</p>
-</a>
-
-<a href="app2.html" class="card">
-<div class="icon"><i class="fa-solid fa-table-cells"></i></div>
-<h2>App 2</h2>
-<p>Access backend server 2</p>
-</a>
-
-<a href="users.html" class="card">
-<div class="icon"><i class="fa-solid fa-users"></i></div>
-<h2>Users</h2>
-<p>Manage users</p>
-</a>
 
 </div>
 
