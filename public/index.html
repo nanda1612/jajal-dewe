@@ -4,147 +4,323 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Main Dashboard</title>
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
 <style>
+  :root {
+    --app1: #3b82f6;
+    --app1-dark: #2563eb;
+    --app2: #f43f5e;
+    --app2-dark: #e11d48;
+    --users: #10b981;
+    --users-dark: #059669;
+    --surface: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.15);
+  }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body{
-    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
-}
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #060b1a;
+    overflow: hidden;
+    position: relative;
+  }
 
-.container{
-    background:white;
-    padding:40px;
-    border-radius:18px;
-    width:380px;
-    text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,0.15);
-    animation:fadeIn 0.6s ease;
-}
+  /* Animated mesh background */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(59,130,246,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 70%, rgba(16,185,129,0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 70% at 50% 50%, rgba(244,63,94,0.12) 0%, transparent 60%),
+      linear-gradient(135deg, #060b1a 0%, #0d1b2a 50%, #071120 100%);
+    animation: pulse-bg 10s ease-in-out infinite alternate;
+  }
 
-.logo{
-    width:120px;
-    margin-bottom:15px;
-}
+  @keyframes pulse-bg {
+    from { filter: brightness(1); }
+    to   { filter: brightness(1.08); }
+  }
 
-h1{
-    font-weight:500;
-    margin-bottom:30px;
-    color:#2c3e50;
-}
+  /* Floating orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  .orb-1 { width: 350px; height: 350px; background: #3b82f6; top: -80px; left: -60px; animation-delay: 0s; }
+  .orb-2 { width: 280px; height: 280px; background: #10b981; bottom: -80px; right: -40px; animation-delay: -4s; }
+  .orb-3 { width: 200px; height: 200px; background: #f43f5e; bottom: 20%; left: 10%; animation-delay: -8s; }
 
-.button-group{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(30px, 20px) scale(1.05); }
+  }
 
-.btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    padding:14px;
-    border-radius:10px;
-    text-decoration:none;
-    color:white;
-    font-weight:500;
-    font-size:16px;
-    transition:all 0.25s ease;
-}
+  /* Grid dots overlay */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-.btn i{
-    font-size:18px;
-}
+  /* Card */
+  .card {
+    position: relative;
+    z-index: 10;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 44px 40px;
+    width: 420px;
+    max-width: 95vw;
+    text-align: center;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04) inset,
+      0 32px 64px rgba(0,0,0,0.5),
+      0 0 80px rgba(59,130,246,0.08);
+    animation: card-in 0.7s cubic-bezier(.22,.68,0,1.2) both;
+  }
 
-.app1{
-    background:#3498db;
-}
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(24px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
 
-.app1:hover{
-    background:#2c82c9;
-    transform:translateY(-2px);
-}
+  /* Top accent line */
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: linear-gradient(90deg, transparent, #3b82f6, #10b981, transparent);
+    animation: shimmer 4s ease-in-out infinite;
+  }
 
-.app2{
-    background:#e74c3c;
-}
+  @keyframes shimmer {
+    0%,100% { opacity: .6; }
+    50%      { opacity: 1; }
+  }
 
-.app2:hover{
-    background:#c0392b;
-    transform:translateY(-2px);
-}
+  /* Logo + badge */
+  .logo-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 10px;
+  }
+  .status-dot {
+    position: absolute;
+    bottom: 4px; right: 4px;
+    width: 14px; height: 14px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid #0f172a;
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,.6); }
+    50%      { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+  }
 
-.users{
-    background:#27ae60;
-}
+  .title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: #f1f5f9;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: rgba(148,163,184,.7);
+    margin-bottom: 32px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
 
-.users:hover{
-    background:#1e8c4a;
-    transform:translateY(-2px);
-}
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin-bottom: 28px;
+  }
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+  /* Navigation buttons */
+  .btn-group { display: flex; flex-direction: column; gap: 12px; }
 
-@media(max-width:480px){
-    .container{
-        width:90%;
-        padding:30px;
-    }
-}
+  .btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid transparent;
+    transition: transform .22s cubic-bezier(.22,.68,0,1.2), box-shadow .22s, border-color .22s, background .22s;
+    overflow: hidden;
+  }
 
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.2);
+    flex-shrink: 0;
+    font-size: 17px;
+    transition: transform .22s;
+  }
+
+  .btn-content { flex: 1; text-align: left; }
+  .btn-content .btn-title { display: block; font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .btn-content .btn-desc { display: block; font-size: 12px; opacity: .72; font-weight: 400; margin-top: 2px; }
+
+  .btn .arrow {
+    font-size: 14px;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity .22s, transform .22s;
+    flex-shrink: 0;
+  }
+
+  .btn:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.12); }
+  .btn:hover .arrow { opacity: 1; transform: translateX(0); }
+  .btn:hover .btn-icon { transform: scale(1.1) rotate(-4deg); }
+  .btn:active { transform: translateY(0) scale(.98); }
+
+  /* Individual colors */
+  .app1 {
+    background: linear-gradient(135deg, var(--app1), #1d4ed8);
+    box-shadow: 0 6px 24px rgba(59,130,246,.3);
+  }
+  .app1:hover { box-shadow: 0 10px 32px rgba(59,130,246,.45); }
+
+  .app2 {
+    background: linear-gradient(135deg, var(--app2), #be123c);
+    box-shadow: 0 6px 24px rgba(244,63,94,.3);
+  }
+  .app2:hover { box-shadow: 0 10px 32px rgba(244,63,94,.45); }
+
+  .users {
+    background: linear-gradient(135deg, var(--users), #047857);
+    box-shadow: 0 6px 24px rgba(16,185,129,.3);
+  }
+  .users:hover { box-shadow: 0 10px 32px rgba(16,185,129,.45); }
+
+  /* Footer */
+  .footer {
+    margin-top: 28px;
+    font-size: 12px;
+    color: rgba(148,163,184,.4);
+    letter-spacing: .04em;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 36px 24px; }
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="grid-overlay"></div>
 
-<img src="./images/idn-logo.png" alt="idn-logo" class="logo">
+<div class="card">
+  <div class="logo-wrap">
+    <img src="./images/idn-logo.png" alt="IDN Logo" class="logo">
+    <span class="status-dot"></span>
+  </div>
 
-<h1>Main Dashboard</h1>
+  <h1 class="title">Main Dashboard</h1>
+  <p class="subtitle">Training DevOps · IDN</p>
 
-<div class="button-group">
+  <div class="divider"></div>
 
-<a href="http://192.168.56.102:3000/app1" class="btn app1">
-<i class="fa-solid fa-cube"></i>
-App 1
-</a>
+  <nav class="btn-group">
+    <a href="http://192.168.56.102:3000/app1" class="btn app1">
+      <div class="btn-icon"><i class="fa-solid fa-cube"></i></div>
+      <div class="btn-content">
+        <span class="btn-title">App 1</span>
+        <span class="btn-desc">Application service endpoint</span>
+      </div>
+      <i class="fa-solid fa-arrow-right arrow"></i>
+    </a>
 
-<a href="http://192.168.56.102:3000/app2" class="btn app2">
-<i class="fa-solid fa-layer-group"></i>
-App 2
-</a>
+    <a href="http://192.168.56.102:3000/app2" class="btn app2">
+      <div class="btn-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="btn-content">
+        <span class="btn-title">App 2</span>
+        <span class="btn-desc">Secondary application service</span>
+      </div>
+      <i class="fa-solid fa-arrow-right arrow"></i>
+    </a>
 
-<a href="http://192.168.56.102:3000/users" class="btn users">
-<i class="fa-solid fa-users"></i>
-Users
-</a>
+    <a href="http://192.168.56.102:3000/users" class="btn users">
+      <div class="btn-icon"><i class="fa-solid fa-users"></i></div>
+      <div class="btn-content">
+        <span class="btn-title">Users</span>
+        <span class="btn-desc">Manage user data &amp; records</span>
+      </div>
+      <i class="fa-solid fa-arrow-right arrow"></i>
+    </a>
+  </nav>
 
+  <p class="footer" id="clock"></p>
 </div>
 
-</div>
-
+<script>
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    clock.textContent = new Date().toLocaleString('id-ID', {
+      weekday: 'long', year: 'numeric', month: 'short',
+      day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+  };
+  tick();
+  setInterval(tick, 1000);
+</script>
 </body>
 </html>
